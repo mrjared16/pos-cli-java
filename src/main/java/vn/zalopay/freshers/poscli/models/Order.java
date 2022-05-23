@@ -1,5 +1,6 @@
 package vn.zalopay.freshers.poscli.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Order {
@@ -14,10 +15,11 @@ public class Order {
 
     private final String ID;
     private Date orderedAt;
-    private OrderItem[] orderItems;
+    private ArrayList<OrderItem> orderItems;
 
-    public Order() {
+    public Order(ArrayList<OrderItem> orderItems) {
         ID = String.valueOf(currentID++);
         orderedAt = new Date();
+        this.orderItems = orderItems;
     }
 }
