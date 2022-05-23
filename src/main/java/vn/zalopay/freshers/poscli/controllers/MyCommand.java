@@ -1,9 +1,10 @@
 package vn.zalopay.freshers.poscli.controllers;
 
 public class MyCommand {
-    private final Integer key;
+    private final Key key;
     private String label;
-    public MyCommand(int key) {
+    private CommandHandler handler;
+    public MyCommand(Key key) {
         this.key = key;
     }
 
@@ -11,9 +12,10 @@ public class MyCommand {
         return label;
     }
 
-    public MyCommand(int key, String label) {
+    public MyCommand(Key key, String label, CommandHandler handler) {
         this.key = key;
         this.label = label;
+        this.handler = handler;
     }
 
     @Override
@@ -30,7 +32,10 @@ public class MyCommand {
         return key.equals(command.key);
     }
 
-    public int getKey() {
+    public Key getKey() {
         return this.key;
+    }
+    public void execute() {
+        this.handler.execute();
     }
 }

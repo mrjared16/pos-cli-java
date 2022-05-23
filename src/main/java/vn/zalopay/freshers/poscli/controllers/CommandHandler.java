@@ -1,5 +1,5 @@
 package vn.zalopay.freshers.poscli.controllers;
 
-public interface MyCommandHandler {
+public interface CommandHandler {
     void execute();
 }
