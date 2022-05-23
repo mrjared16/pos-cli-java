@@ -7,14 +7,14 @@ import vn.zalopay.freshers.poscli.controllers.handlers.validators.Validator;
 import java.util.Scanner;
 
 public class IntInput implements Input {
-    int id;
+    int value;
 
-    public int getId() {
-        return id;
+    public int getValue() {
+        return value;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setValue(int value) {
+        this.value = value;
     }
 
     private static final String INVALID_MESSAGE = "Command is not valid! Please enter again: ";
@@ -30,7 +30,7 @@ public class IntInput implements Input {
                 continue;
             }
             command = input.nextInt();
-            this.id = command;
+            this.value = command;
             if (!validator.valid(this)) {
                 errorHandler.execute();
             } else {
@@ -49,7 +49,7 @@ public class IntInput implements Input {
                 continue;
             }
             command = input.nextInt();
-            this.id = command;
+            this.value = command;
             if (!validator.valid(this)) {
                 System.out.print(INVALID_MESSAGE);
             } else {

@@ -99,12 +99,12 @@ public class CreateOrderController implements Controller, Validator {
 
     @Override
     public boolean valid(Input input) {
-        Key key = new NumberKey(((IntInput)input).getId());
+        Key key = new NumberKey(((IntInput)input).getValue());
         return this.createOrderCommands.containsKey(key);
     }
 
     private void handleCommand(Input input) {
-        Key key = new NumberKey(((IntInput)input).getId());
+        Key key = new NumberKey(((IntInput)input).getValue());
         this.createOrderCommands.get(key).execute();
     }
 }

@@ -55,12 +55,12 @@ public class HomeController implements Controller, Validator {
 
     @Override
     public boolean valid(Input input) {
-        Key key = new NumberKey(((IntInput)input).getId());
+        Key key = new NumberKey(((IntInput)input).getValue());
         return homeCommands.containsKey(key);
     }
 
     private void handleCommand(Input input) {
-        Key key = new NumberKey(((IntInput)input).getId());
+        Key key = new NumberKey(((IntInput)input).getValue());
         this.homeCommands.get(key).execute();
     }
 }

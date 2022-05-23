@@ -13,7 +13,7 @@ public class ArrayInput extends IntInput {
     }
 
     @Override
-    public int getId() {
-        return super.getId() - 1;
+    public int getValue() {
+        return super.getValue() - 1;
     }
 }
