@@ -1,11 +1,11 @@
 package vn.zalopay.freshers.poscli.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class OrderItem {
     private MenuItem menuItem;
     private int quantity;
-    private ArrayList<ToppingItem> toppings;
+    private List<ToppingItem> toppings;
 
     public MenuItem getMenuItem() {
         return menuItem;
@@ -16,13 +16,21 @@ public class OrderItem {
     }
 
 
-    public ArrayList<ToppingItem> getToppings() {
+    public List<ToppingItem> getToppings() {
         return toppings;
     }
 
-    public OrderItem(MenuItem menuItem, int quantity, ArrayList<ToppingItem> toppings) {
+    public OrderItem(MenuItem menuItem, int quantity, List<ToppingItem> toppings) {
         this.menuItem = menuItem;
         this.quantity = quantity;
         this.toppings = toppings;
+    }
+
+    public int getTotal() {
+        int totalTopping = 0;
+        for (ToppingItem toppingItem: this.toppings) {
+            totalTopping += toppingItem.getPrice();
+        }
+        return (int) (this.menuItem.getPrice() * this.quantity + totalTopping);
     }
 }

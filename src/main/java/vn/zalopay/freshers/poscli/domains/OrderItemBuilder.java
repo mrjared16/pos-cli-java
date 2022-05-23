@@ -1,11 +1,11 @@
 package vn.zalopay.freshers.poscli.domains;
 
-import vn.zalopay.freshers.poscli.domains.Builder;
 import vn.zalopay.freshers.poscli.models.MenuItem;
 import vn.zalopay.freshers.poscli.models.OrderItem;
 import vn.zalopay.freshers.poscli.models.ToppingItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderItemBuilder implements Builder {
     private MenuItem menuItem;
@@ -15,7 +15,7 @@ public class OrderItemBuilder implements Builder {
         return menuItem;
     }
 
-    private ArrayList<ToppingItem> toppings = new ArrayList<>();
+    private List<ToppingItem> toppings = new ArrayList<>();
     public void setMenuItem(MenuItem menuItem) {
         this.menuItem = menuItem;
     }
@@ -24,7 +24,7 @@ public class OrderItemBuilder implements Builder {
         this.quantity = quantity;
     }
 
-    public void setToppings(ArrayList<ToppingItem> toppings) {
+    public void setToppings(List<ToppingItem> toppings) {
         this.toppings = toppings;
     }
 

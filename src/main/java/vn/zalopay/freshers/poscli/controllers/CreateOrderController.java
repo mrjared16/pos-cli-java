@@ -68,22 +68,30 @@ public class CreateOrderController implements Controller, Validator {
             System.out.println();
             return;
         }
-        System.out.println("ID\tName\tPrice\tQuantity");
+        int numberOfColumns = 4;
+        Utils.printColumnsFormat(new String[]{"ID", "Name", "Price (VND)", "Quantity"}, numberOfColumns);
+        String[] columns = new String[numberOfColumns];
         for (int i = 0; i < this.orderBuilder.getOrderItems().size(); i++) {
             OrderItem current = this.orderBuilder.getOrderItems().get(i);
-            System.out.println((i + 1) + ". " +
-                    current.getMenuItem().getName() + "\t" +
-                    current.getMenuItem().getPrice() + "\t" +
-                    current.getQuantity() + "\t"
-            );
-            ArrayList<ToppingItem> toppings = current.getToppings();
+            columns[0] = (i + 1) + "";
+            columns[1] = current.getMenuItem().getName();
+            columns[2] = Integer.toString((int) current.getMenuItem().getPrice());
+            columns[3] = Integer.toString(current.getQuantity());
+            Utils.printColumnsFormat(columns, 4);
+            List<ToppingItem> toppings = current.getToppings();
             for (ToppingItem currentToppingItem : toppings) {
-                System.out.println("\t\t" +
-                        currentToppingItem.getName() + "\t" +
-                        currentToppingItem.getPrice() + "\t"
-                );
+                columns[0] = "";
+                columns[1] = currentToppingItem.getName();
+                columns[2] = Integer.toString((int) currentToppingItem.getPrice());
+                columns[3] = "";
+                Utils.printColumnsFormat(columns, numberOfColumns);
             }
         }
+        columns[0] = "Total (VND)";
+        columns[1] = "";
+        columns[2] = "";
+        columns[3] = Integer.toString(this.orderBuilder.getCurrentTotal());
+        Utils.printColumnsFormat(columns, numberOfColumns);
         System.out.println();
     }
 

@@ -1,12 +1,8 @@
 package vn.zalopay.freshers.poscli.controllers.handlers;
 
 import vn.zalopay.freshers.poscli.domains.MenuManager;
-import vn.zalopay.freshers.poscli.shared.CommandHandler;
+import vn.zalopay.freshers.poscli.shared.*;
 import vn.zalopay.freshers.poscli.domains.OrderItemBuilder;
-import vn.zalopay.freshers.poscli.shared.Validator;
-import vn.zalopay.freshers.poscli.shared.IndexOfArrayInput;
-import vn.zalopay.freshers.poscli.shared.Input;
-import vn.zalopay.freshers.poscli.shared.IntInput;
 import vn.zalopay.freshers.poscli.models.*;
 
 import java.util.ArrayList;
@@ -39,10 +35,18 @@ public class ItemChoosingProcessor extends OrderItemInputHandler implements Comm
     private void showMenu() {
         System.out.println("Menu:");
         System.out.println();
-        System.out.println("ID\tName\tPrice");
+        int numberOfColumns = 3;
+        String[] columns = new String[numberOfColumns];
+        columns[0] = "ID";
+        columns[1] = "Name";
+        columns[2] = "Price (VND)";
+        Utils.printColumnsFormat(columns, numberOfColumns);
         for (int i = 0; i < this.menuItems.size(); i++) {
             MenuItem current = this.menuItems.get(i);
-            System.out.println((i + 1) + ". " + current.getName() + "\t" + current.getPrice());
+            columns[0] = Integer.toString(i + 1);
+            columns[1] = current.getName();
+            columns[2] = Integer.toString((int) current.getPrice());
+            Utils.printColumnsFormat(columns, numberOfColumns);
         }
         System.out.println();
     }

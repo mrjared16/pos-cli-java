@@ -10,10 +10,6 @@ public class IntInput implements Input {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     private static final String INVALID_MESSAGE = "Command is not valid! Please enter again: ";
 
    public IntInput(Validator validator, CommandHandler errorHandler) {
