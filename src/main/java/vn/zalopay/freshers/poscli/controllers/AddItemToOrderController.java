@@ -1,6 +1,7 @@
 package vn.zalopay.freshers.poscli.controllers;
 
 import vn.zalopay.freshers.poscli.controllers.handlers.ItemChoosingProcessor;
+import vn.zalopay.freshers.poscli.controllers.handlers.QuantityProcessor;
 
 public class AddItemToOrderController implements Controller {
     private OrderItemBuilder orderItemBuilder;
@@ -15,20 +16,12 @@ public class AddItemToOrderController implements Controller {
 
     public void run() {
         ItemChoosingProcessor itemChoosingProcessor = new ItemChoosingProcessor();
-//        QuantityProcessor quantityProcessor = new QuantityProcessor();
+        QuantityProcessor quantityProcessor = new QuantityProcessor();
 //        AddToppingProcessor addToppingProcessor = new AddToppingProcessor();
-//        itemChoosingProcessor.setNext(quantityProcessor);
+        itemChoosingProcessor.setNext(quantityProcessor);
 //        setNext(addToppingProcessor);
         itemChoosingProcessor.handle(orderItemBuilder);
-        // check valid id
-//        System.out.print("Enter the quantity: ");
-//        orderItemBuilder.setQuantity(input);
-//        // check valid quantity
-//        System.out.print("Enter the toppings (default is no topping): ");
-//        orderItemBuilder.setToppings(new ToppingItem[]{});
-        // check valid input
-//        System.out.print("Enter the note: ");
-        // check valid input
+        // create order item
         this.addOrderItem();
         // back to create order screen
         this.predecessor.run();

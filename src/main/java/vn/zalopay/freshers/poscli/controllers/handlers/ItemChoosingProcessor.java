@@ -19,11 +19,13 @@ public class ItemChoosingProcessor extends OrderItemInputHandler implements Comm
         this.showInputPrompt();
         IntInput input = new ArrayInput(this, this);
         builder.setMenuItem(this.getMenuItem(input));
-        ((OrderItemInputHandler)this.successor).handle(builder);
+        if (successor != null) {
+            ((OrderItemInputHandler) this.successor).handle(builder);
+        }
     }
 
     private MenuItem getMenuItem(IntInput input) {
-        return this.menuItems.get(input.getId());
+        return this.menuItems.get(input.getValue());
     }
 
     @Override
@@ -44,12 +46,12 @@ public class ItemChoosingProcessor extends OrderItemInputHandler implements Comm
 
     @Override
     public void execute() {
-        System.out.printf("Command is not valid! Please enter in the range of 1 -> %d: ", this.menuItems.size());
+        System.out.printf("ID is not valid! Please enter in the range of 1 -> %d: ", this.menuItems.size());
     }
 
     @Override
     public boolean valid(Input input) {
-        int index = ((ArrayInput)input).getId();
+        int index = ((ArrayInput)input).getValue();
         return (index >= 0 && index < this.menuItems.size());
     }
 }
