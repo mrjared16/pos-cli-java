@@ -1,4 +1,4 @@
-package vn.zalopay.freshers.poscli.models;
+package vn.zalopay.freshers.poscli.controllers;
 
 public class MyCommand {
     private final Integer key;
