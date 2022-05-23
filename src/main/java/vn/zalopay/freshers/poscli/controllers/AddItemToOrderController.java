@@ -1,8 +1,6 @@
 package vn.zalopay.freshers.poscli.controllers;
 
 import vn.zalopay.freshers.poscli.controllers.handlers.ItemChoosingProcessor;
-import vn.zalopay.freshers.poscli.controllers.handlers.QuantityProcessor;
-
 
 public class AddItemToOrderController implements Controller {
     private OrderItemBuilder orderItemBuilder;
@@ -17,10 +15,10 @@ public class AddItemToOrderController implements Controller {
 
     public void run() {
         ItemChoosingProcessor itemChoosingProcessor = new ItemChoosingProcessor();
-        QuantityProcessor quantityProcessor = new QuantityProcessor();
-        QuantityProcessor.AddToppingProcessor addToppingProcessor = new QuantityProcessor.AddToppingProcessor();
-        itemChoosingProcessor.setNext(quantityProcessor);
-        quantityProcessor.setNext(addToppingProcessor);
+//        QuantityProcessor quantityProcessor = new QuantityProcessor();
+//        AddToppingProcessor addToppingProcessor = new AddToppingProcessor();
+//        itemChoosingProcessor.setNext(quantityProcessor);
+//        setNext(addToppingProcessor);
         itemChoosingProcessor.handle(orderItemBuilder);
         // check valid id
 //        System.out.print("Enter the quantity: ");
