@@ -1,10 +1,10 @@
 package vn.zalopay.freshers.poscli.shared;
 
-public class MyCommand {
+public class Command {
     private final Key key;
     private String label;
     private CommandHandler handler;
-    public MyCommand(Key key) {
+    public Command(Key key) {
         this.key = key;
     }
 
@@ -12,7 +12,7 @@ public class MyCommand {
         return label;
     }
 
-    public MyCommand(Key key, String label, CommandHandler handler) {
+    public Command(Key key, String label, CommandHandler handler) {
         this.key = key;
         this.label = label;
         this.handler = handler;
@@ -26,9 +26,9 @@ public class MyCommand {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MyCommand)) return false;
+        if (!(o instanceof Command)) return false;
 
-        MyCommand command = (MyCommand) o;
+        Command command = (Command) o;
         return key.equals(command.key);
     }
 

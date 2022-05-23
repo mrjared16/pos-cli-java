@@ -1,6 +1,5 @@
 package vn.zalopay.freshers.poscli.controllers;
 
-import vn.zalopay.freshers.poscli.controllers.helpers.*;
 import vn.zalopay.freshers.poscli.shared.*;
 import vn.zalopay.freshers.poscli.domains.OrderBuilder;
 import vn.zalopay.freshers.poscli.models.*;
@@ -9,25 +8,25 @@ import java.util.*;
 
 
 public class CreateOrderController implements Controller, Validator {
-    private final Map<Key, MyCommand> createOrderCommands;
+    private final Map<Key, Command> createOrderCommands;
     private OrderBuilder orderBuilder;
     private final Controller predecessor;
 
     public CreateOrderController(Controller predecessor) {
         this.predecessor = predecessor;
         this.reset();
-        List<MyCommand> commands = Arrays.asList(
-                new MyCommand(new NumberKey(1), "Add item to order", () -> {
+        List<Command> commands = Arrays.asList(
+                new Command(new NumberKey(1), "Add item to order", () -> {
                     Controller addItemToOrder = new AddItemToOrderController(this, orderBuilder);
                     addItemToOrder.run();
                 }),
-                new MyCommand(new NumberKey(2), "Edit item in order", () -> {
+                new Command(new NumberKey(2), "Edit item in order", () -> {
 
                 }),
-                new MyCommand(new NumberKey(3), "Confirm order", () -> {
+                new Command(new NumberKey(3), "Confirm order", () -> {
 
                 }),
-                new MyCommand(new NumberKey(4), "Void order", () -> {
+                new Command(new NumberKey(4), "Void order", () -> {
                     this.reset();
                     this.predecessor.run();
                 })

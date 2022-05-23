@@ -1,23 +1,22 @@
 package vn.zalopay.freshers.poscli.controllers;
 
-import vn.zalopay.freshers.poscli.controllers.helpers.*;
 import vn.zalopay.freshers.poscli.shared.*;
 
 import java.util.*;
 
 
 public class HomeController implements Controller, Validator {
-    private final Map<Key, MyCommand> homeCommands;
+    private final Map<Key, Command> homeCommands;
 
     public HomeController() {
         this.homeCommands = new LinkedHashMap<>();
         Controller createOrderController = new CreateOrderController(this);
-        List<MyCommand> commands = Arrays.asList(
-            new MyCommand(new NumberKey(1), "Create new order", createOrderController::run),
-            new MyCommand(new NumberKey(2), "Manage orders", () -> {
+        List<Command> commands = Arrays.asList(
+            new Command(new NumberKey(1), "Create new order", createOrderController::run),
+            new Command(new NumberKey(2), "Manage orders", () -> {
                 System.out.println("Manage orders");
                 System.out.println("Manage orders 2");}),
-            new MyCommand(new NumberKey(3), "Quit", () -> {})
+            new Command(new NumberKey(3), "Quit", () -> {})
         );
 
         commands.forEach(command -> this.homeCommands.put(command.getKey(), command));
