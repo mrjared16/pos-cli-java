@@ -1,44 +1,49 @@
 package vn.zalopay.freshers.poscli.controllers;
 
+import vn.zalopay.freshers.poscli.controllers.handlers.Input;
+import vn.zalopay.freshers.poscli.controllers.handlers.IntInput;
+import vn.zalopay.freshers.poscli.controllers.handlers.validators.Validator;
 import vn.zalopay.freshers.poscli.models.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
-public class CreateOrderController implements Controller {
-    private final Map<MyCommand, MyCommandHandler> createOrderCommands;
+public class CreateOrderController implements Controller, Validator {
+    private final Map<Key, MyCommand> createOrderCommands;
     private OrderBuilder orderBuilder;
-    private static final int DEFAULT_COMMAND = 4;
     private final Controller predecessor;
 
     public CreateOrderController(Controller predecessor) {
         this.predecessor = predecessor;
         this.reset();
+        List<MyCommand> commands = Arrays.asList(
+                new MyCommand(new NumberKey(1), "Add item to order", () -> {
+                    Controller addItemToOrder = new AddItemToOrderController(this, orderBuilder);
+                    addItemToOrder.run();
+                }),
+                new MyCommand(new NumberKey(2), "Edit item in order", () -> {
+
+                }),
+                new MyCommand(new NumberKey(3), "Confirm order", () -> {
+
+                }),
+                new MyCommand(new NumberKey(4), "Void order", () -> {
+                    this.reset();
+                    this.predecessor.run();
+                })
+        );
+
         createOrderCommands = new LinkedHashMap<>();
-        createOrderCommands.put(new MyCommand(1, "Add item to order"), () -> {
-            Controller addItemToOrder = new AddItemToOrderController(this, orderBuilder);
-            addItemToOrder.run();
-        });
-        createOrderCommands.put(new MyCommand(2, "Edit item in order"), () -> {
-
-        });
-
-        createOrderCommands.put(new MyCommand(3, "Confirm order"), () -> { });
-        createOrderCommands.put(new MyCommand(4, "Void order"), () -> {
-            this.reset();
-            this.predecessor.run();
-        });
+        commands.forEach(command -> this.createOrderCommands.put(command.getKey(), command));
     }
 
     @Override
     public void run() {
         showCreateOrderMessage();
         showCreateOrderActions();
-        MyCommand command = getOneCommand();
-        createOrderCommands.get(command).execute();
+        showInputPrompt();
+        IntInput input = new IntInput(this);
+        this.handleCommand(input);
     }
 
     @Override
@@ -88,32 +93,18 @@ public class CreateOrderController implements Controller {
     }
 
     private void showCreateOrderActions() {
-        createOrderCommands.forEach((command, handler) -> System.out.println(command.getKey() + ". " + command.getLabel()));
+        this.createOrderCommands.forEach((key, command) -> System.out.println(key.toString() + ". " + command.getLabel()));
         System.out.println();
     }
 
-    private MyCommand getOneCommand() {
-        showInputPrompt();
-        Scanner input = new Scanner(System.in);
-        int command = DEFAULT_COMMAND;
-        boolean didRead = false;
-        while (!didRead) {
-            if (!input.hasNextInt()) {
-                System.out.print("Command is not valid! Please enter again: ");
-                input.next();
-                continue;
-            }
-            command = input.nextInt();
-            if (!validCommand(command)) {
-                System.out.print("Command is not valid! Please enter again: ");
-            } else {
-                didRead = true;
-            }
-        }
-        return new MyCommand(command);
+    @Override
+    public boolean valid(Input input) {
+        Key key = new NumberKey(((IntInput)input).getId());
+        return this.createOrderCommands.containsKey(key);
     }
 
-    private boolean validCommand(int command) {
-        return createOrderCommands.containsKey(new MyCommand(command));
+    private void handleCommand(Input input) {
+        Key key = new NumberKey(((IntInput)input).getId());
+        this.createOrderCommands.get(key).execute();
     }
 }

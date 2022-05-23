@@ -1,33 +1,36 @@
 package vn.zalopay.freshers.poscli.controllers;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import vn.zalopay.freshers.poscli.controllers.handlers.Input;
+import vn.zalopay.freshers.poscli.controllers.handlers.IntInput;
+import vn.zalopay.freshers.poscli.controllers.handlers.validators.Validator;
+
+import java.util.*;
 
 
-public class HomeController implements Controller {
-    private final Map<MyCommand, MyCommandHandler> homeCommands;
-    private static final int DEFAULT_COMMAND = 3;
+public class HomeController implements Controller, Validator {
+    private final Map<Key, MyCommand> homeCommands;
 
     public HomeController() {
         this.homeCommands = new LinkedHashMap<>();
         Controller createOrderController = new CreateOrderController(this);
-        this.homeCommands.put(new MyCommand(1, "Create new order"), createOrderController::run);
-        this.homeCommands.put(new MyCommand(2, "Manage orders"), () -> {
-            System.out.println("Manage orders");
-            System.out.println("Manage orders 2");
-        });
-        this.homeCommands.put(new MyCommand(3, "Quit"), () -> {
+        List<MyCommand> commands = Arrays.asList(
+            new MyCommand(new NumberKey(1), "Create new order", createOrderController::run),
+            new MyCommand(new NumberKey(2), "Manage orders", () -> {
+                System.out.println("Manage orders");
+                System.out.println("Manage orders 2");}),
+            new MyCommand(new NumberKey(3), "Quit", () -> {})
+        );
 
-        });
+        commands.forEach(command -> this.homeCommands.put(command.getKey(), command));
     }
 
     @Override
     public void run() {
         showGreetingMessage();
         showHomeMenuActions();
-        MyCommand command = getOneCommand();
-        homeCommands.get(command).execute();
+        showInputPrompt();
+        IntInput input = new IntInput(this );
+        this.handleCommand(input);
     }
 
     @Override
@@ -45,33 +48,19 @@ public class HomeController implements Controller {
     }
 
     private void showHomeMenuActions() {
-        homeCommands.forEach((command, handler) -> System.out.println(command.getKey() + ". " + command.getLabel()));
+        homeCommands.forEach((key, command) -> System.out.println(key.toString() + ". " + command.getLabel()));
         System.out.println();
     }
 
-    private MyCommand getOneCommand() {
-        showInputPrompt();
-        Scanner input = new Scanner(System.in);
-        int command = DEFAULT_COMMAND;
-        boolean didRead = false;
-        while (!didRead) {
-            if (!input.hasNextInt()) {
-                System.out.print("Command is not valid! Please enter again: ");
-                input.next();
-                continue;
-            }
-            command = input.nextInt();
-            if (!validCommand(command)) {
-                System.out.print("Command is not valid! Please enter again: ");
-            } else {
-                didRead = true;
-            }
-        }
-        return new MyCommand(command);
+
+    @Override
+    public boolean valid(Input input) {
+        Key key = new NumberKey(((IntInput)input).getId());
+        return homeCommands.containsKey(key);
     }
 
-    private boolean validCommand(int command) {
-        return homeCommands.containsKey(new MyCommand(command));
+    private void handleCommand(Input input) {
+        Key key = new NumberKey(((IntInput)input).getId());
+        this.homeCommands.get(key).execute();
     }
-
 }
