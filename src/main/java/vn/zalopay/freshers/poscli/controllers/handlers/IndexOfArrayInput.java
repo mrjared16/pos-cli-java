@@ -3,12 +3,12 @@ package vn.zalopay.freshers.poscli.controllers.handlers;
 import vn.zalopay.freshers.poscli.controllers.CommandHandler;
 import vn.zalopay.freshers.poscli.controllers.handlers.validators.Validator;
 
-public class ArrayInput extends IntInput {
-    public ArrayInput(Validator validator, CommandHandler errorHandler) {
+public class IndexOfArrayInput extends IntInput {
+    public IndexOfArrayInput(Validator validator, CommandHandler errorHandler) {
         super(validator, errorHandler);
     }
 
-    public ArrayInput(Validator validator) {
+    public IndexOfArrayInput(Validator validator) {
         super(validator);
     }
 

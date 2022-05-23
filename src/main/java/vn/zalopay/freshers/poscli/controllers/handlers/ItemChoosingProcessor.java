@@ -17,7 +17,7 @@ public class ItemChoosingProcessor extends OrderItemInputHandler implements Comm
     public void handle(OrderItemBuilder builder) {
         this.showMenu();
         this.showInputPrompt();
-        IntInput input = new ArrayInput(this, this);
+        IntInput input = new IndexOfArrayInput(this, this);
         builder.setMenuItem(this.getMenuItem(input));
         if (successor != null) {
             ((OrderItemInputHandler) this.successor).handle(builder);
@@ -51,7 +51,7 @@ public class ItemChoosingProcessor extends OrderItemInputHandler implements Comm
 
     @Override
     public boolean valid(Input input) {
-        int index = ((ArrayInput)input).getValue();
+        int index = ((IndexOfArrayInput)input).getValue();
         return (index >= 0 && index < this.menuItems.size());
     }
 }
