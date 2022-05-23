@@ -1,8 +1,5 @@
-package vn.zalopay.freshers.poscli.controllers.handlers;
+package vn.zalopay.freshers.poscli.shared;
 
-
-import vn.zalopay.freshers.poscli.controllers.CommandHandler;
-import vn.zalopay.freshers.poscli.controllers.handlers.validators.Validator;
 
 import java.util.Scanner;
 

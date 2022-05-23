@@ -1,8 +1,14 @@
 package vn.zalopay.freshers.poscli.models;
 
+import java.util.List;
+
 public class MenuItem {
     private final String name;
     private double price;
+
+    public List<ToppingItem> getApplicableToppings() {
+        return applicableToppings;
+    }
 
     public double getPrice() {
         return price;
@@ -17,9 +23,9 @@ public class MenuItem {
     }
 
     private int maxTopping;
-    private String[] applicableToppings;
+    private List<ToppingItem> applicableToppings;
 
-    public MenuItem(String name, double price, int maxTopping, String[] applicableToppings) {
+    public MenuItem(String name, double price, int maxTopping, List<ToppingItem> applicableToppings) {
         this.name = name;
         this.price = price;
         this.maxTopping = maxTopping;

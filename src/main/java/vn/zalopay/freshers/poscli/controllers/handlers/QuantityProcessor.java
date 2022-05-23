@@ -1,8 +1,10 @@
 package vn.zalopay.freshers.poscli.controllers.handlers;
 
-import vn.zalopay.freshers.poscli.controllers.CommandHandler;
-import vn.zalopay.freshers.poscli.controllers.OrderItemBuilder;
-import vn.zalopay.freshers.poscli.controllers.handlers.validators.Validator;
+import vn.zalopay.freshers.poscli.shared.CommandHandler;
+import vn.zalopay.freshers.poscli.domains.OrderItemBuilder;
+import vn.zalopay.freshers.poscli.shared.Validator;
+import vn.zalopay.freshers.poscli.shared.Input;
+import vn.zalopay.freshers.poscli.shared.IntInput;
 
 public class QuantityProcessor extends OrderItemInputHandler implements Validator, CommandHandler {
     @Override

@@ -1,4 +1,4 @@
-package vn.zalopay.freshers.poscli.controllers;
+package vn.zalopay.freshers.poscli.shared;
 
 public class MyCommand {
     private final Key key;

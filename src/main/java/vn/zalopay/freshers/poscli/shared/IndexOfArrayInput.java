@@ -1,7 +1,4 @@
-package vn.zalopay.freshers.poscli.controllers.handlers;
-
-import vn.zalopay.freshers.poscli.controllers.CommandHandler;
-import vn.zalopay.freshers.poscli.controllers.handlers.validators.Validator;
+package vn.zalopay.freshers.poscli.shared;
 
 public class IndexOfArrayInput extends IntInput {
     public IndexOfArrayInput(Validator validator, CommandHandler errorHandler) {

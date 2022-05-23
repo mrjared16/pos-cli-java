@@ -1,9 +1,12 @@
 package vn.zalopay.freshers.poscli.controllers.handlers;
 
-import vn.zalopay.freshers.poscli.controllers.MenuManager;
-import vn.zalopay.freshers.poscli.controllers.CommandHandler;
-import vn.zalopay.freshers.poscli.controllers.OrderItemBuilder;
-import vn.zalopay.freshers.poscli.controllers.handlers.validators.Validator;
+import vn.zalopay.freshers.poscli.domains.MenuManager;
+import vn.zalopay.freshers.poscli.shared.CommandHandler;
+import vn.zalopay.freshers.poscli.domains.OrderItemBuilder;
+import vn.zalopay.freshers.poscli.shared.Validator;
+import vn.zalopay.freshers.poscli.shared.IndexOfArrayInput;
+import vn.zalopay.freshers.poscli.shared.Input;
+import vn.zalopay.freshers.poscli.shared.IntInput;
 import vn.zalopay.freshers.poscli.models.*;
 
 import java.util.ArrayList;

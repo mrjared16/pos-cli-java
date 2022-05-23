@@ -1,5 +1,6 @@
-package vn.zalopay.freshers.poscli.controllers;
+package vn.zalopay.freshers.poscli.domains;
 
+import vn.zalopay.freshers.poscli.domains.Builder;
 import vn.zalopay.freshers.poscli.models.Order;
 import vn.zalopay.freshers.poscli.models.OrderItem;
 
