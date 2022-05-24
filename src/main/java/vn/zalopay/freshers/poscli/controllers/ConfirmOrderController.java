@@ -41,7 +41,6 @@ public class ConfirmOrderController implements Controller {
         newOrder.addSubscriber(new ReceiptSubscriber(new Zalo("receipt number subscriber")));
         // save new order
         this.addOrder(newOrder);
-        newOrder.nextState();
 
         // reset order builder
         this.predecessor.reset();
@@ -70,6 +69,7 @@ public class ConfirmOrderController implements Controller {
     private void addOrder(Order order) {
         orderService.addOrder(order);
         order.notifySubscribers(ReceiptSubscriber.class.toString());
+        order.notifySubscribers(OrderStatusSubscriber.class.toString());
         this.showSuccessMessage();
     }
 

@@ -5,17 +5,19 @@ import vn.zalopay.freshers.poscli.domains.OrderReceipt;
 import vn.zalopay.freshers.poscli.domains.OrderStatusSubscriber;
 import vn.zalopay.freshers.poscli.domains.PriceCalculator;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Order {
     public enum OrderStatus {
-        DRAFT,
-        WAITING,
         PROCESSING,
-        READY
+        WAITING,
+        READY;
+
+        public static List<String> getNames() {
+            return Arrays.stream(values()).map(Enum::name)
+                    .collect(Collectors.toList());
+        }
     }
 
     public PriceCalculator getPriceCalculator() {
@@ -24,11 +26,16 @@ public class Order {
 
     private static int currentID = 0;
     private final PriceCalculator priceCalculator;
-    public String getID() {
-        return ID;
+    public String getId() {
+        return id;
     }
 
-    private final String ID;
+    private final String id;
+
+    public Date getOrderedAt() {
+        return orderedAt;
+    }
+
     private Date orderedAt;
     private final List<OrderItem> orderItems;
     private HashMap<String, List<OrderObserver>> observers;
@@ -39,21 +46,21 @@ public class Order {
 
     private OrderStatus orderStatus;
     public Order(List<OrderItem> orderItems, PriceCalculator priceCalculator) {
-        ID = String.valueOf(currentID++);
+        id = String.valueOf(currentID++);
         this.init();
         this.orderItems = orderItems;
         this.priceCalculator = priceCalculator;
     }
 
     public Order(List<OrderItem> orderItems) {
-        ID = String.valueOf(currentID++);
+        id = String.valueOf(currentID++);
         this.init();
         this.orderItems = orderItems;
         this.priceCalculator = new PriceCalculator();
     }
 
     private void init() {
-        this.orderStatus = OrderStatus.DRAFT;
+        this.orderStatus = OrderStatus.WAITING;
         this.orderedAt = new Date();
         observers = new HashMap<>();
     }
@@ -80,9 +87,6 @@ public class Order {
 
     public void nextState() {
         switch (this.orderStatus) {
-            case DRAFT:
-                this.orderStatus = OrderStatus.WAITING;
-                break;
             case WAITING:
                 this.orderStatus = OrderStatus.PROCESSING;
                 break;

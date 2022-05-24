@@ -31,7 +31,6 @@ public class OrderStatusMessage extends Message {
         System.setOut(printStream);
         // Print some output: goes to your special stream
         switch (order.getOrderStatus()) {
-            case DRAFT:
             case WAITING:
             case PROCESSING:
             case READY:
