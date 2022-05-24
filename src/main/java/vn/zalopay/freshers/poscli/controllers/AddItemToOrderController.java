@@ -5,6 +5,7 @@ import vn.zalopay.freshers.poscli.controllers.handlers.QuantityProcessor;
 import vn.zalopay.freshers.poscli.controllers.handlers.ToppingsChoosingProcessor;
 import vn.zalopay.freshers.poscli.domains.OrderBuilder;
 import vn.zalopay.freshers.poscli.domains.OrderItemBuilder;
+import vn.zalopay.freshers.poscli.models.OrderItem;
 
 public class AddItemToOrderController implements Controller {
     private OrderItemBuilder orderItemBuilder;
@@ -14,10 +15,10 @@ public class AddItemToOrderController implements Controller {
     public AddItemToOrderController(Controller predecessor, OrderBuilder orderBuilder) {
         this.predecessor = predecessor;
         this.orderBuilder = orderBuilder;
-        this.reset();
     }
 
     public void run() {
+        this.reset();
         ItemChoosingProcessor itemChoosingProcessor = new ItemChoosingProcessor();
         QuantityProcessor quantityProcessor = new QuantityProcessor();
         ToppingsChoosingProcessor toppingsChoosingProcessor = new ToppingsChoosingProcessor();
@@ -28,16 +29,16 @@ public class AddItemToOrderController implements Controller {
         itemChoosingProcessor.handle(orderItemBuilder);
 
         // create order item
-        this.addOrderItem();
+        OrderItem newOrderItem = orderItemBuilder.createOrderItem();
+        this.addOrderItem(newOrderItem);
 
         // back to create order screen
         this.predecessor.run();
     }
 
-    private void addOrderItem() {
-        orderBuilder.addOrderItem(orderItemBuilder.createOrderItem());
+    private void addOrderItem(OrderItem orderItem) {
+        orderBuilder.addOrderItem(orderItem);
         this.showSuccessMessage();
-        this.reset();
     }
 
     private void showSuccessMessage() {

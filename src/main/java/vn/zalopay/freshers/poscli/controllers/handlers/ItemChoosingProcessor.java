@@ -5,10 +5,10 @@ import vn.zalopay.freshers.poscli.shared.*;
 import vn.zalopay.freshers.poscli.domains.OrderItemBuilder;
 import vn.zalopay.freshers.poscli.models.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ItemChoosingProcessor extends OrderItemInputHandler implements CommandHandler, Validator {
-    private ArrayList<MenuItem> menuItems;
+    private final List<MenuItem> menuItems;
     public ItemChoosingProcessor() {
         this.menuItems = MenuManager.getMenuItemSamples();
     }
