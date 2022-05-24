@@ -66,6 +66,9 @@ public class ToppingsChoosingProcessor extends OrderItemInputHandler implements 
     private void showSuccessMessage() {
         List<String> toppingNames = this.currentToppings.stream()
                 .map(ToppingItem::getName).collect(Collectors.toList());
+        if (toppingNames.isEmpty()) {
+            return;
+        }
         System.out.println("Added topping " + String.join(", ", toppingNames) + " to order!");
     }
 
