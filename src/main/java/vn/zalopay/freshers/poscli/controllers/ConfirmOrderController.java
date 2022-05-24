@@ -58,6 +58,8 @@ public class ConfirmOrderController implements Controller {
     }
 
     private void showReceipt(Order newOrder) {
+        // TODO: should show current order here
+        // for now, print and show are one
         this.printOrder(newOrder);
     }
 

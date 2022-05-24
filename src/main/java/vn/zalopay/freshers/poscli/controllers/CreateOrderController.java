@@ -68,7 +68,7 @@ public class CreateOrderController implements Controller, Validator {
     }
 
     private void showDraftOrder(OrderBuilder orderBuilder) {
-        System.out.println(orderBuilder.toReceipt());
+        System.out.println(orderBuilder.toString());
     }
 
     private void showInputPrompt() {

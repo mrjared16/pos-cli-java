@@ -37,4 +37,8 @@ public class OrderBuilder implements Builder {
     public OrderReceipt toReceipt() {
         return new OrderReceipt(this.orderItems, this.priceCalculator);
     }
+
+    public String toString() {
+        return this.toReceipt().toString();
+    }
 }
