@@ -21,20 +21,17 @@ public class CreateOrderController implements Controller, Validator {
         List<Command> commands = Arrays.asList(
                 new Command(new NumberKey(1), "Add item to order", () -> {
                     Controller addItemToOrder = new AddItemToOrderController(this, orderBuilder);
-                    addItemToOrder.run();
+                    addItemToOrder.loading();
                 }),
-//                new Command(new NumberKey(2), "Update item in order", () -> {
-//
-//                }),
                 new Command(new NumberKey(2), "Confirm order", () -> {
                     Controller confirmOrderController = new ConfirmOrderController(this, this.orderBuilder, this.orderService, printer);
-                    confirmOrderController.run();
+                    confirmOrderController.loading();
                 }),
                 new Command(new NumberKey(3), "Void order", () -> {
                     this.reset();
-                    this.run();
+                    this.loading();
                 }),
-                new Command(new NumberKey(4), "Back", this.predecessor::run)
+                new Command(new NumberKey(4), "Back", this.predecessor::loading)
 
         );
 
@@ -43,7 +40,7 @@ public class CreateOrderController implements Controller, Validator {
     }
 
     @Override
-    public void run() {
+    public void loading() {
         showCreateOrderMessage(this.orderBuilder);
         showCreateOrderActions();
         showInputPrompt();

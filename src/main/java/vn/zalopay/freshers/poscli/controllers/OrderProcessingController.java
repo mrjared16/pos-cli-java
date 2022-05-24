@@ -14,7 +14,7 @@ public class OrderProcessingController extends InputHandler implements Controlle
         this.orderService = orderService;
     }
 
-    public void run() {
+    public void loading() {
         this.reset();
         this.showInputPrompt();
         IntInput input = new IntInput(this, this);
@@ -27,7 +27,7 @@ public class OrderProcessingController extends InputHandler implements Controlle
             confirmationHandler.handle(order);
         }
         // back to manage screen
-        this.predecessor.run();
+        this.predecessor.loading();
     }
 
     private void showOrderNotFoundMessage() {

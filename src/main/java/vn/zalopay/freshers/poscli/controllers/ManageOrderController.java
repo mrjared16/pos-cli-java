@@ -26,9 +26,9 @@ public class ManageOrderController implements Controller, Validator {
         List<Command> commands = Arrays.asList(
                 new Command(new NumberKey(1), "Process order", () -> {
                     Controller orderProcessingController = new OrderProcessingController(this, this.orderService);
-                    orderProcessingController.run();
+                    orderProcessingController.loading();
                 }),
-                new Command(new NumberKey(2), "Back", this.predecessor::run)
+                new Command(new NumberKey(2), "Back", this.predecessor::loading)
 
         );
 
@@ -37,7 +37,7 @@ public class ManageOrderController implements Controller, Validator {
     }
 
     @Override
-    public void run() {
+    public void loading() {
         showManageOrderMessage();
         showManageOrderActions();
         showInputPrompt();

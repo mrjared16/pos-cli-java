@@ -23,11 +23,11 @@ public class ConfirmOrderController implements Controller {
         this.printer = PrinterFactory.getInstance().getDefaultPrinter();
     }
 
-    public void run() {
+    public void loading() {
         if (this.emptyOrder()) {
             this.showErrorMessage();
             // back to create order screen
-            this.predecessor.run();
+            this.predecessor.loading();
             return;
         }
         this.reset();
@@ -45,7 +45,7 @@ public class ConfirmOrderController implements Controller {
         // reset order builder
         this.predecessor.reset();
         // back to create order screen
-        this.predecessor.run();
+        this.predecessor.loading();
     }
 
     private void showErrorMessage() {

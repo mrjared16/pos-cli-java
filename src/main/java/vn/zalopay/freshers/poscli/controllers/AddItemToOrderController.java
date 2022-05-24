@@ -17,7 +17,7 @@ public class AddItemToOrderController implements Controller {
         this.orderBuilder = orderBuilder;
     }
 
-    public void run() {
+    public void loading() {
         this.reset();
         ItemChoosingProcessor itemChoosingProcessor = new ItemChoosingProcessor();
         QuantityProcessor quantityProcessor = new QuantityProcessor();
@@ -33,7 +33,7 @@ public class AddItemToOrderController implements Controller {
         this.addOrderItem(newOrderItem);
 
         // back to create order screen
-        this.predecessor.run();
+        this.predecessor.loading();
     }
 
     private void addOrderItem(OrderItem orderItem) {

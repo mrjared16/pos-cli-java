@@ -15,8 +15,8 @@ public class HomeController implements Controller, Validator {
         Controller createOrderController = new CreateOrderController(this, this.orderService);
         Controller manageOrderController = new ManageOrderController(this, this.orderService);
         List<Command> commands = Arrays.asList(
-            new Command(new NumberKey(1), "Create new order", createOrderController::run),
-            new Command(new NumberKey(2), "Manage orders", manageOrderController::run),
+            new Command(new NumberKey(1), "Create new order", createOrderController::loading),
+            new Command(new NumberKey(2), "Manage orders", manageOrderController::loading),
             new Command(new NumberKey(3), "Quit", () -> {})
         );
 
@@ -24,7 +24,7 @@ public class HomeController implements Controller, Validator {
     }
 
     @Override
-    public void run() {
+    public void loading() {
         showGreetingMessage();
         showHomeMenuActions();
         showInputPrompt();
