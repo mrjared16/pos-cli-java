@@ -28,10 +28,15 @@ public class ConfirmOrderController implements Controller {
         this.showGreetingMessage();
 
         Order newOrder = orderBuilder.createOrder();
+        // print receipt
         this.showReceipt(newOrder);
 
+        // add subscribers
+        newOrder.addSubscriber(new OrderStatusSubscriber(new Zalo("status number subscriber")));
+        newOrder.addSubscriber(new ReceiptSubscriber(new Zalo("receipt number subscriber")));
         // save new order
         this.addOrder(newOrder);
+        newOrder.nextState();
 
         // back to home screen
         this.predecessor.run();
@@ -47,6 +52,7 @@ public class ConfirmOrderController implements Controller {
 
     private void addOrder(Order order) {
         orderManager.addOrder(order);
+        order.notifySubscribers(ReceiptSubscriber.class.toString());
         this.showSuccessMessage();
     }
 

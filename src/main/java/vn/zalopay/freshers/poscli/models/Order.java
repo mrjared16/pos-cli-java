@@ -1,8 +1,13 @@
 package vn.zalopay.freshers.poscli.models;
 
+import vn.zalopay.freshers.poscli.domains.OrderObserver;
+import vn.zalopay.freshers.poscli.domains.OrderReceipt;
+import vn.zalopay.freshers.poscli.domains.OrderStatusSubscriber;
 import vn.zalopay.freshers.poscli.domains.PriceCalculator;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class Order {
@@ -26,7 +31,13 @@ public class Order {
     private final String ID;
     private final Date orderedAt;
     private final List<OrderItem> orderItems;
+    private HashMap<String, List<OrderObserver>> observers = new HashMap<>();
 
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    private OrderStatus orderStatus;
     public Order(List<OrderItem> orderItems, PriceCalculator priceCalculator) {
         ID = String.valueOf(currentID++);
         orderedAt = new Date();
@@ -39,6 +50,7 @@ public class Order {
         orderedAt = new Date();
         this.orderItems = orderItems;
         this.priceCalculator = new PriceCalculator();
+        this.orderStatus = OrderStatus.DRAFT;
     }
 
     public int getTotal() {
@@ -51,5 +63,34 @@ public class Order {
 
     public List<OrderItem> getOrderItems() {
         return orderItems;
+    }
+
+    public void addSubscriber(OrderObserver observer) {
+        String event = observer.getEventName();
+        this.observers.computeIfAbsent(event, list -> this.observers.put(event, new ArrayList<>()));
+        this.observers.get(event).add(observer);
+    }
+
+    public void nextState() {
+        switch (this.orderStatus) {
+            case DRAFT:
+                this.orderStatus = OrderStatus.WAITING;
+                break;
+            case WAITING:
+                this.orderStatus = OrderStatus.PROCESSING;
+                break;
+            case PROCESSING:
+                this.orderStatus = OrderStatus.READY;
+                break;
+            case READY:
+                return;
+        }
+        this.notifySubscribers(OrderStatusSubscriber.class.toString());
+    }
+
+    public void notifySubscribers(String event) {
+        for (OrderObserver observer: this.observers.get(event)) {
+            observer.notify(this);
+        }
     }
 }
