@@ -2,14 +2,22 @@ package vn.zalopay.freshers.poscli.domains;
 
 import vn.zalopay.freshers.poscli.models.Order;
 import vn.zalopay.freshers.poscli.models.OrderItem;
+import vn.zalopay.freshers.poscli.models.OrderReceipt;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderBuilder implements Builder {
     private final List<OrderItem> orderItems;
+    private final PriceCalculator priceCalculator;
     public OrderBuilder() {
         orderItems = new ArrayList<>();
+        priceCalculator = new PriceCalculator();
+    }
+
+    public OrderBuilder(PriceCalculator priceCalculator) {
+        orderItems = new ArrayList<>();
+        this.priceCalculator = priceCalculator;
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -23,11 +31,11 @@ public class OrderBuilder implements Builder {
     public Order createOrder() {
         return new Order(this.orderItems);
     }
-    public int getCurrentTotal() {
-        int total = 0;
-        for (OrderItem orderItem: this.orderItems) {
-            total += orderItem.getTotal();
-        }
-        return total;
+    public int getTotal() {
+        return priceCalculator.calculate(orderItems);
+    }
+
+    public OrderReceipt toReceipt() {
+        return new OrderReceipt(this.orderItems, this.priceCalculator);
     }
 }
