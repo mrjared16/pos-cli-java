@@ -1,7 +1,8 @@
-package vn.zalopay.freshers.poscli.models;
+package vn.zalopay.freshers.poscli.domains;
 
-import vn.zalopay.freshers.poscli.domains.Message;
-import vn.zalopay.freshers.poscli.domains.PriceCalculator;
+import vn.zalopay.freshers.poscli.models.Order;
+import vn.zalopay.freshers.poscli.models.OrderItem;
+import vn.zalopay.freshers.poscli.models.ToppingItem;
 import vn.zalopay.freshers.poscli.shared.Utils;
 
 import java.io.ByteArrayOutputStream;

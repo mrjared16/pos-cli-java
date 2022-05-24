@@ -2,7 +2,6 @@ package vn.zalopay.freshers.poscli.domains;
 
 import vn.zalopay.freshers.poscli.models.Order;
 import vn.zalopay.freshers.poscli.models.OrderItem;
-import vn.zalopay.freshers.poscli.models.OrderReceipt;
 
 import java.util.ArrayList;
 import java.util.List;
