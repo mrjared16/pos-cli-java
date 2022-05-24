@@ -13,11 +13,10 @@ public class HomeController implements Controller, Validator {
         this.orderService = orderService;
         this.homeCommands = new LinkedHashMap<>();
         Controller createOrderController = new CreateOrderController(this, this.orderService);
+        Controller manageOrderController = new ManageOrderController(this, this.orderService);
         List<Command> commands = Arrays.asList(
             new Command(new NumberKey(1), "Create new order", createOrderController::run),
-            new Command(new NumberKey(2), "Manage orders", () -> {
-                System.out.println("Manage orders");
-                System.out.println("Manage orders 2");}),
+            new Command(new NumberKey(2), "Manage orders", manageOrderController::run),
             new Command(new NumberKey(3), "Quit", () -> {})
         );
 

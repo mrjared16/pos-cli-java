@@ -5,6 +5,6 @@ public class Utils {
 
     }
     public static void printColumnsFormat(String[] inputs, int numberOfColumns) {
-        System.out.println(String.format("%10s ".repeat(Math.max(0, numberOfColumns)), (Object[]) inputs));
+        System.out.println(String.format("%12s ".repeat(Math.max(0, numberOfColumns)), (Object[]) inputs));
     }
 }
