@@ -17,13 +17,13 @@ public class InMemoryOrderRepository implements OrderRepository {
 
     @Override
     public boolean add(Order item) {
-        store.put(new StringKey(item.getID()), item);
+        store.put(new StringKey(item.getId()), item);
         return true;
     }
 
     @Override
     public Order get(Key id) {
-        return null;
+        return store.getOrDefault(id, null);
     }
 
     @Override
@@ -33,12 +33,18 @@ public class InMemoryOrderRepository implements OrderRepository {
 
     @Override
     public boolean update(Key id, Order item) {
+        if (!store.containsKey(id)) {
+            return false;
+        }
         store.put(id, item);
         return true;
     }
 
     @Override
     public boolean delete(Key id) {
+        if (!store.containsKey(id)) {
+            return false;
+        }
         store.remove(id);
         return true;
     }
