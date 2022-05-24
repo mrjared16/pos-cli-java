@@ -24,22 +24,11 @@ public class ManageOrderController implements Controller, Validator {
         this.predecessor = predecessor;
         this.orderService = orderService;
         List<Command> commands = Arrays.asList(
-//                new Command(new NumberKey(1), "Add item to order", () -> {
-//                    Controller addItemToOrder = new AddItemToOrderController(this, orderBuilder);
-//                    addItemToOrder.run();
-//                }),
-////                new Command(new NumberKey(2), "Update item in order", () -> {
-////
-////                }),
-//                new Command(new NumberKey(2), "Confirm order", () -> {
-//                    Controller confirmOrderController = new ConfirmOrderController(this, this.orderBuilder, this.orderService, printer);
-//                    confirmOrderController.run();
-//                }),
-//                new Command(new NumberKey(3), "Void order", () -> {
-//                    this.reset();
-//                    this.run();
-//                }),
-                new Command(new NumberKey(4), "Back", this.predecessor::run)
+                new Command(new NumberKey(1), "Process order", () -> {
+                    Controller orderProcessingController = new OrderProcessingController(this, this.orderService);
+                    orderProcessingController.run();
+                }),
+                new Command(new NumberKey(2), "Back", this.predecessor::run)
 
         );
 

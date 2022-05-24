@@ -1,6 +1,7 @@
 package vn.zalopay.freshers.poscli.domains;
 
 import vn.zalopay.freshers.poscli.models.Order;
+import vn.zalopay.freshers.poscli.shared.Key;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -37,5 +38,10 @@ public class OrderServiceImpl implements OrderService {
             result.get(order.getOrderStatus().name()).add(order);
         }
         return result;
+    }
+
+    @Override
+    public Order getOrder(Key id) {
+        return this.repository.get(id);
     }
 }
