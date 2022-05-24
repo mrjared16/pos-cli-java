@@ -3,9 +3,9 @@ package vn.zalopay.freshers.poscli.models;
 import java.util.List;
 
 public class OrderItem {
-    private MenuItem menuItem;
-    private int quantity;
-    private List<ToppingItem> toppings;
+    private final MenuItem menuItem;
+    private final int quantity;
+    private final List<ToppingItem> toppings;
 
     public MenuItem getMenuItem() {
         return menuItem;
@@ -31,6 +31,6 @@ public class OrderItem {
         for (ToppingItem toppingItem: this.toppings) {
             totalTopping += toppingItem.getPrice();
         }
-        return (int) (this.menuItem.getPrice() * this.quantity + totalTopping);
+        return (int) (this.menuItem.getPrice() + totalTopping) * this.quantity;
     }
 }
