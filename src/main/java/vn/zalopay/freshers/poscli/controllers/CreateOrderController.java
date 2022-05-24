@@ -1,8 +1,7 @@
 package vn.zalopay.freshers.poscli.controllers;
 
+import vn.zalopay.freshers.poscli.domains.*;
 import vn.zalopay.freshers.poscli.shared.*;
-import vn.zalopay.freshers.poscli.domains.OrderBuilder;
-import vn.zalopay.freshers.poscli.models.*;
 
 import java.util.*;
 
@@ -11,25 +10,26 @@ public class CreateOrderController implements Controller, Validator {
     private final Map<Key, Command> createOrderCommands;
     private OrderBuilder orderBuilder;
     private final Controller predecessor;
+    private final OrderManager orderManager;
+    private final Printer printer;
 
-    public CreateOrderController(Controller predecessor) {
+    public CreateOrderController(Controller predecessor, OrderManager orderManager) {
         this.predecessor = predecessor;
-        this.reset();
+        this.orderManager = orderManager;
+        this.printer = PrinterFactory.getInstance().getDefaultPrinter();
         List<Command> commands = Arrays.asList(
                 new Command(new NumberKey(1), "Add item to order", () -> {
                     Controller addItemToOrder = new AddItemToOrderController(this, orderBuilder);
                     addItemToOrder.run();
                 }),
-                new Command(new NumberKey(2), "Edit item in order", () -> {
-
+//                new Command(new NumberKey(2), "Update item in order", () -> {
+//
+//                }),
+                new Command(new NumberKey(2), "Confirm order", () -> {
+                    Controller confirmOrderController = new ConfirmOrderController(this.predecessor, this.orderBuilder, this.orderManager, printer);
+                    confirmOrderController.run();
                 }),
-                new Command(new NumberKey(3), "Confirm order", () -> {
-
-                }),
-                new Command(new NumberKey(4), "Void order", () -> {
-                    this.reset();
-                    this.predecessor.run();
-                })
+                new Command(new NumberKey(3), "Void order", this.predecessor::run)
         );
 
         createOrderCommands = new LinkedHashMap<>();
@@ -38,7 +38,7 @@ public class CreateOrderController implements Controller, Validator {
 
     @Override
     public void run() {
-        showCreateOrderMessage();
+        showCreateOrderMessage(this.orderBuilder);
         showCreateOrderActions();
         showInputPrompt();
         IntInput input = new IntInput(this);
@@ -50,9 +50,9 @@ public class CreateOrderController implements Controller, Validator {
         this.orderBuilder = new OrderBuilder();
     }
 
-    private void showCreateOrderMessage() {
+    private void showCreateOrderMessage(OrderBuilder orderBuilder) {
         this.showGreetingMessage();
-        this.showDraftOrder();
+        this.showDraftOrder(orderBuilder);
     }
 
     @Override
@@ -61,38 +61,8 @@ public class CreateOrderController implements Controller, Validator {
         System.out.println("Current order");
     }
 
-    private void showDraftOrder() {
-        System.out.println();
-        if (this.orderBuilder.getOrderItems().isEmpty()) {
-            System.out.println("Current order doesn't have any item");
-            System.out.println();
-            return;
-        }
-        int numberOfColumns = 4;
-        Utils.printColumnsFormat(new String[]{"ID", "Name", "Price (VND)", "Quantity"}, numberOfColumns);
-        String[] columns = new String[numberOfColumns];
-        for (int i = 0; i < this.orderBuilder.getOrderItems().size(); i++) {
-            OrderItem current = this.orderBuilder.getOrderItems().get(i);
-            columns[0] = (i + 1) + "";
-            columns[1] = current.getMenuItem().getName();
-            columns[2] = Integer.toString((int) current.getMenuItem().getPrice());
-            columns[3] = Integer.toString(current.getQuantity());
-            Utils.printColumnsFormat(columns, 4);
-            List<ToppingItem> toppings = current.getToppings();
-            for (ToppingItem currentToppingItem : toppings) {
-                columns[0] = "";
-                columns[1] = currentToppingItem.getName();
-                columns[2] = Integer.toString((int) currentToppingItem.getPrice());
-                columns[3] = "";
-                Utils.printColumnsFormat(columns, numberOfColumns);
-            }
-        }
-        columns[0] = "Total (VND)";
-        columns[1] = "";
-        columns[2] = "";
-        columns[3] = Integer.toString(this.orderBuilder.getCurrentTotal());
-        Utils.printColumnsFormat(columns, numberOfColumns);
-        System.out.println();
+    private void showDraftOrder(OrderBuilder orderBuilder) {
+        System.out.println(orderBuilder.toReceipt());
     }
 
     private void showInputPrompt() {
