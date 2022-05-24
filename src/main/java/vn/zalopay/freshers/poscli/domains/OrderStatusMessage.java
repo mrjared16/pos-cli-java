@@ -30,13 +30,7 @@ public class OrderStatusMessage extends Message {
         // Tell Java to use custom stream
         System.setOut(printStream);
         // Print some output: goes to your special stream
-        switch (order.getOrderStatus()) {
-            case WAITING:
-            case PROCESSING:
-            case READY:
-                System.out.printf("Your order is %s!", order.getOrderStatus());
-                break;
-        }
+        System.out.printf("Your order is %s!", order.getOrderStatus());
 
         // Put things back
         String result = byteArrayOutputStream.toString();

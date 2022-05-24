@@ -9,10 +9,12 @@ public class Zalo implements Sender {
 
     @Override
     public void send(Message messageBody) {
+        System.out.println("************");
         System.out.printf("Sending to Zalo username with %s...", this.phoneNumber);
         System.out.println();
         System.out.printf("Content: %s", messageBody.toString());
         System.out.println();
         System.out.println("Sent to Zalo!");
+        System.out.println("************");
     }
 }
