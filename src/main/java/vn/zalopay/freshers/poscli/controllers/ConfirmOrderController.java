@@ -24,9 +24,14 @@ public class ConfirmOrderController implements Controller {
     }
 
     public void run() {
+        if (this.emptyOrder()) {
+            this.showErrorMessage();
+            // back to create order screen
+            this.predecessor.run();
+            return;
+        }
         this.reset();
         this.showGreetingMessage();
-
         Order newOrder = orderBuilder.createOrder();
         // print receipt
         this.showReceipt(newOrder);
@@ -38,8 +43,18 @@ public class ConfirmOrderController implements Controller {
         this.addOrder(newOrder);
         newOrder.nextState();
 
-        // back to home screen
+        // reset order builder
+        this.predecessor.reset();
+        // back to create order screen
         this.predecessor.run();
+    }
+
+    private void showErrorMessage() {
+        System.out.println("You didn't order anything. Add your items!");
+    }
+
+    private boolean emptyOrder() {
+        return this.orderBuilder.getOrderItems().isEmpty();
     }
 
     private void showReceipt(Order newOrder) {

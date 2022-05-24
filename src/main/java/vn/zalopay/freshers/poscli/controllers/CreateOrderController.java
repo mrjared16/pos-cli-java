@@ -14,6 +14,7 @@ public class CreateOrderController implements Controller, Validator {
     private final Printer printer;
 
     public CreateOrderController(Controller predecessor, OrderManager orderManager) {
+        this.reset();
         this.predecessor = predecessor;
         this.orderManager = orderManager;
         this.printer = PrinterFactory.getInstance().getDefaultPrinter();
@@ -26,10 +27,15 @@ public class CreateOrderController implements Controller, Validator {
 //
 //                }),
                 new Command(new NumberKey(2), "Confirm order", () -> {
-                    Controller confirmOrderController = new ConfirmOrderController(this.predecessor, this.orderBuilder, this.orderManager, printer);
+                    Controller confirmOrderController = new ConfirmOrderController(this, this.orderBuilder, this.orderManager, printer);
                     confirmOrderController.run();
                 }),
-                new Command(new NumberKey(3), "Void order", this.predecessor::run)
+                new Command(new NumberKey(3), "Void order", () -> {
+                    this.reset();
+                    this.run();
+                }),
+                new Command(new NumberKey(4), "Back", this.predecessor::run)
+
         );
 
         createOrderCommands = new LinkedHashMap<>();

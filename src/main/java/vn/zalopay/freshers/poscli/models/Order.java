@@ -29,9 +29,9 @@ public class Order {
     }
 
     private final String ID;
-    private final Date orderedAt;
+    private Date orderedAt;
     private final List<OrderItem> orderItems;
-    private HashMap<String, List<OrderObserver>> observers = new HashMap<>();
+    private HashMap<String, List<OrderObserver>> observers;
 
     public OrderStatus getOrderStatus() {
         return orderStatus;
@@ -40,17 +40,22 @@ public class Order {
     private OrderStatus orderStatus;
     public Order(List<OrderItem> orderItems, PriceCalculator priceCalculator) {
         ID = String.valueOf(currentID++);
-        orderedAt = new Date();
+        this.init();
         this.orderItems = orderItems;
         this.priceCalculator = priceCalculator;
     }
 
     public Order(List<OrderItem> orderItems) {
         ID = String.valueOf(currentID++);
-        orderedAt = new Date();
+        this.init();
         this.orderItems = orderItems;
         this.priceCalculator = new PriceCalculator();
+    }
+
+    private void init() {
         this.orderStatus = OrderStatus.DRAFT;
+        this.orderedAt = new Date();
+        observers = new HashMap<>();
     }
 
     public int getTotal() {
@@ -67,7 +72,9 @@ public class Order {
 
     public void addSubscriber(OrderObserver observer) {
         String event = observer.getEventName();
-        this.observers.computeIfAbsent(event, list -> this.observers.put(event, new ArrayList<>()));
+        if (!this.observers.containsKey(event)) {
+            this.observers.put(event, new ArrayList<>());
+        }
         this.observers.get(event).add(observer);
     }
 

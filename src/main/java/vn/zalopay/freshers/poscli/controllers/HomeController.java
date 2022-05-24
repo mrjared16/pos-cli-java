@@ -14,10 +14,7 @@ public class HomeController implements Controller, Validator {
         this.homeCommands = new LinkedHashMap<>();
         Controller createOrderController = new CreateOrderController(this, this.orderManager);
         List<Command> commands = Arrays.asList(
-            new Command(new NumberKey(1), "Create new order", () -> {
-                createOrderController.reset();
-                createOrderController.run();
-            }),
+            new Command(new NumberKey(1), "Create new order", createOrderController::run),
             new Command(new NumberKey(2), "Manage orders", () -> {
                 System.out.println("Manage orders");
                 System.out.println("Manage orders 2");}),
