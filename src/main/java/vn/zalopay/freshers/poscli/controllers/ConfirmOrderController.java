@@ -38,7 +38,7 @@ public class ConfirmOrderController implements Controller {
 
         // add subscribers
         newOrder.addSubscriber(new OrderStatusSubscriber(new Zalo("status number subscriber")));
-        newOrder.addSubscriber(new ReceiptSubscriber(new Zalo("receipt number subscriber")));
+        newOrder.addSubscriber(new ReceiptSubscriber(new Telegram("receipt number subscriber")));
         // save new order
         this.addOrder(newOrder);
 
