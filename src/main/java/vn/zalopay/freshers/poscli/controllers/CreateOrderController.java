@@ -10,13 +10,13 @@ public class CreateOrderController implements Controller, Validator {
     private final Map<Key, Command> createOrderCommands;
     private OrderBuilder orderBuilder;
     private final Controller predecessor;
-    private final OrderManager orderManager;
+    private final OrderService orderService;
     private final Printer printer;
 
-    public CreateOrderController(Controller predecessor, OrderManager orderManager) {
+    public CreateOrderController(Controller predecessor, OrderService orderService) {
         this.reset();
         this.predecessor = predecessor;
-        this.orderManager = orderManager;
+        this.orderService = orderService;
         this.printer = PrinterFactory.getInstance().getDefaultPrinter();
         List<Command> commands = Arrays.asList(
                 new Command(new NumberKey(1), "Add item to order", () -> {
@@ -27,7 +27,7 @@ public class CreateOrderController implements Controller, Validator {
 //
 //                }),
                 new Command(new NumberKey(2), "Confirm order", () -> {
-                    Controller confirmOrderController = new ConfirmOrderController(this, this.orderBuilder, this.orderManager, printer);
+                    Controller confirmOrderController = new ConfirmOrderController(this, this.orderBuilder, this.orderService, printer);
                     confirmOrderController.run();
                 }),
                 new Command(new NumberKey(3), "Void order", () -> {

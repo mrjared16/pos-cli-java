@@ -1,6 +1,6 @@
 package vn.zalopay.freshers.poscli.controllers;
 
-import vn.zalopay.freshers.poscli.domains.OrderManager;
+import vn.zalopay.freshers.poscli.domains.OrderService;
 import vn.zalopay.freshers.poscli.shared.*;
 
 import java.util.*;
@@ -8,11 +8,11 @@ import java.util.*;
 
 public class HomeController implements Controller, Validator {
     private final Map<Key, Command> homeCommands;
-    private final OrderManager orderManager;
-    public HomeController(OrderManager orderManager) {
-        this.orderManager = orderManager;
+    private final OrderService orderService;
+    public HomeController(OrderService orderService) {
+        this.orderService = orderService;
         this.homeCommands = new LinkedHashMap<>();
-        Controller createOrderController = new CreateOrderController(this, this.orderManager);
+        Controller createOrderController = new CreateOrderController(this, this.orderService);
         List<Command> commands = Arrays.asList(
             new Command(new NumberKey(1), "Create new order", createOrderController::run),
             new Command(new NumberKey(2), "Manage orders", () -> {

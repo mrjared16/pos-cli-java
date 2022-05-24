@@ -6,20 +6,20 @@ import vn.zalopay.freshers.poscli.models.Order;
 public class ConfirmOrderController implements Controller {
     private final OrderBuilder orderBuilder;
     private final Controller predecessor;
-    private final OrderManager orderManager;
+    private final OrderService orderService;
     private final Printer printer;
 
-    public ConfirmOrderController(Controller predecessor, OrderBuilder orderBuilder, OrderManager orderManager, Printer printer) {
+    public ConfirmOrderController(Controller predecessor, OrderBuilder orderBuilder, OrderService orderService, Printer printer) {
         this.orderBuilder = orderBuilder;
         this.predecessor = predecessor;
-        this.orderManager = orderManager;
+        this.orderService = orderService;
         this.printer = printer;
     }
 
-    public ConfirmOrderController(Controller predecessor, OrderBuilder orderBuilder, OrderManager orderManager) {
+    public ConfirmOrderController(Controller predecessor, OrderBuilder orderBuilder, OrderService orderService) {
         this.predecessor = predecessor;
         this.orderBuilder = orderBuilder;
-        this.orderManager = orderManager;
+        this.orderService = orderService;
         this.printer = PrinterFactory.getInstance().getDefaultPrinter();
     }
 
@@ -68,7 +68,7 @@ public class ConfirmOrderController implements Controller {
     }
 
     private void addOrder(Order order) {
-        orderManager.addOrder(order);
+        orderService.addOrder(order);
         order.notifySubscribers(ReceiptSubscriber.class.toString());
         this.showSuccessMessage();
     }
